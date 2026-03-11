@@ -45,10 +45,23 @@ def calculate_max_pain(ticker_obj, expiry_date):
     return None, 0, 0
 
 
+def safe_json_load(path, default):
+    """Reads a JSON file safely — returns default if missing or empty/corrupt."""
+    if not os.path.exists(path):
+        return default
+    try:
+        with open(path) as f:
+            content = f.read().strip()
+            return json.loads(content) if content else default
+    except (json.JSONDecodeError, ValueError):
+        print(f"  ⚠️  Could not parse {path}, starting fresh")
+        return default
+
+
 def update_expiry_history(ticker_sym, chain_data):
     """Maintains a rolling 10-day history for every expiry."""
     path      = f'data/{ticker_sym}/expiry_history.json'
-    history   = json.load(open(path)) if os.path.exists(path) else {}
+    history   = safe_json_load(path, {})
     today_sgt = datetime.now(SGT).strftime("%Y-%m-%d")
 
     for entry in chain_data:
@@ -76,7 +89,7 @@ def update_expiry_history(ticker_sym, chain_data):
 def update_spot_log(ticker_sym, spot):
     """Appends today's spot price to the rolling 60-day log."""
     log_path = f'data/{ticker_sym}/history_log.json'
-    log      = json.load(open(log_path)) if os.path.exists(log_path) else []
+    log      = safe_json_load(log_path, [])
     today    = datetime.now(SGT).strftime("%Y-%m-%d")
 
     if log and log[-1]['date'] == today:
