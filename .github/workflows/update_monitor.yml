@@ -1,0 +1,43 @@
+name: Stock Max Pain Monitor
+
+on:
+  schedule:
+    - cron: '0 13 * * 1-5'   # Intraday  (1 PM UTC  = 9 PM SGT)
+    - cron: '0 22 * * 1-5'   # Post-close (10 PM UTC = 6 AM SGT next day)
+  workflow_dispatch:           # Manual trigger from Actions tab
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write              # Required to commit JSON data back to repo
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30        # Extended for multiple tickers
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: pip install yfinance pandas requests
+
+      - name: Run Monitor
+        run: python calculate_pain.py
+
+      - name: Commit and Push Data
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/ tickers.json
+          git commit -m "Update Market Data $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]" || echo "No changes to commit"
+          git fetch origin main
+          git pull --rebase -X theirs origin main
+          git push origin main
