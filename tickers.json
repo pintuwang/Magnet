@@ -1,7 +1,5 @@
 [
-  { "ticker": "AAPL", "added": "2026-03-11", "active": true },
-  { "ticker": "NVDA", "added": "2026-03-11", "active": true },
-  { "ticker": "TSLA", "added": "2026-03-11", "active": true },
-  { "ticker": "META", "added": "2026-03-11", "active": true },
-  { "ticker": "MSFT", "added": "2026-03-11", "active": true }
+  { "ticker": "AEHR", "added": "2026-03-11", "active": true },
+  { "ticker": "SLDP", "added": "2026-03-11", "active": true }
+  
 ]
