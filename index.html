@@ -420,14 +420,19 @@
 
     // Load data files
     try {
+      const safeJson = async (resp, fallback) => {
+        try { const t = await resp.text(); return t.trim() ? JSON.parse(t) : fallback; }
+        catch (e) { return fallback; }
+      };
+
       const [hResp, ehResp, logResp] = await Promise.all([
         fetch(`./data/${sym}/history.json`),
         fetch(`./data/${sym}/expiry_history.json`),
         fetch(`./data/${sym}/history_log.json`)
       ]);
-      const payload       = await hResp.json();
-      const expiryHistory = await ehResp.json();
-      const historyLog    = await logResp.json();
+      const payload       = await safeJson(hResp,   { last_update: '—', spot: null, data: [] });
+      const expiryHistory = await safeJson(ehResp,  {});
+      const historyLog    = await safeJson(logResp, []);
 
       document.getElementById('last-update').innerHTML =
         `Last sync: ${payload.last_update} SGT<br>` +
