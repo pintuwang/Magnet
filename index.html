@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Max Pain Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.0.1"></script>
+
+  <style>
+    :root {
+      --bg:        #080c0e;
+      --surface:   #0e1518;
+      --border:    #1e2c30;
+      --border2:   #243840;
+      --text:      #cdd9dc;
+      --muted:     #5a7880;
+      --accent:    #00e5a0;
+      --accent2:   #ff6b35;
+      --yellow:    #f0d060;
+      --call:      rgba(0, 229, 160, 0.35);
+      --put:       rgba(255, 107, 53, 0.35);
+      --call-b:    rgba(0, 229, 160, 0.8);
+      --put-b:     rgba(255, 107, 53, 0.8);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+    }
+    .header-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    #last-update {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* ── Ticker Bar ── */
+    .ticker-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+    }
+    .ticker-tab {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 12px 18px;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+    .ticker-tab:hover { color: var(--text); }
+    .ticker-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .ticker-tab .dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-right: 6px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* ── Main Content ── */
+    .content { max-width: 1440px; margin: 0 auto; padding: 28px 32px; }
+
+    /* ── Stat Row ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 20px;
+    }
+    .stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .stat-value.green { color: var(--accent); }
+    .stat-value.orange { color: var(--accent2); }
+    .stat-value.yellow { color: var(--yellow); }
+    .stat-sub {
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── Chart Sections ── */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .section-head {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    .section-desc {
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+    .chart-wrap {
+      padding: 20px;
+      height: 440px;
+    }
+    .chart-wrap-scroll {
+      overflow-x: auto;
+      padding: 20px;
+    }
+    .chart-inner-wide {
+      width: 5000px;
+      height: 400px;
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 320px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      gap: 8px;
+    }
+    .empty-state .icon { font-size: 2rem; }
+
+    /* ── Legend pills ── */
+    .legend-row {
+      display: flex;
+      gap: 16px;
+      padding: 0 24px 14px;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .legend-line {
+      width: 20px; height: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Tracking badge ── */
+    .tracking-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      color: var(--muted);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 2px 10px;
+      margin-left: 8px;
+    }
+
+    /* ── No ticker selected ── */
+    #no-ticker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 60vh;
+      color: var(--muted);
+      gap: 12px;
+    }
+    #no-ticker .big { font-size: 3rem; }
+    #no-ticker p { font-size: 0.8rem; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { height: 4px; width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-title">⬡ MAX PAIN MONITOR</div>
+    <div class="header-sub">Options open interest tracker · SGT schedule</div>
+  </div>
+  <div id="last-update">—</div>
+</div>
+
+<!-- TICKER TABS -->
+<div class="ticker-bar" id="ticker-bar">
+  <div style="font-size:0.65rem; color:var(--muted); padding:12px 12px 12px 0; white-space:nowrap;">WATCHLIST</div>
+</div>
+
+<!-- CONTENT AREA -->
+<div class="content">
+
+  <!-- No ticker selected state -->
+  <div id="no-ticker">
+    <div class="big">⬡</div>
+    <p>Select a ticker above to view its charts</p>
+  </div>
+
+  <!-- Ticker dashboard (hidden until ticker selected) -->
+  <div id="dashboard" style="display:none;">
+
+    <!-- Stat Row -->
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-label">Current Spot</div>
+        <div class="stat-value green" id="stat-spot">—</div>
+        <div class="stat-sub" id="stat-ticker-label">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Nearest Max Pain</div>
+        <div class="stat-value yellow" id="stat-nearest-pain">—</div>
+        <div class="stat-sub" id="stat-nearest-exp">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pain vs Spot</div>
+        <div class="stat-value" id="stat-delta">—</div>
+        <div class="stat-sub">distance to nearest magnet</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Nearest Put/Call Ratio</div>
+        <div class="stat-value orange" id="stat-pcr">—</div>
+        <div class="stat-sub">put OI ÷ call OI</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Expiries Tracked</div>
+        <div class="stat-value" id="stat-expiries">—</div>
+        <div class="stat-sub">within 180 days</div>
+      </div>
+    </div>
+
+    <!-- CHART 1 -->
+    <div class="section">
+      <div class="section-head">
+        <span class="section-title">① Max Pain Snapshot</span>
+        <span class="section-desc">Current max pain strike and open interest across all upcoming expiries</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-line" style="background:var(--accent);"></div>Max Pain Strike</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--call);"></div>Call OI</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--put);"></div>Put OI</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--yellow); border-radius:50%;"></div>Monthly Expiry</div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chart1"></canvas>
+      </div>
+    </div>
+
+    <!-- CHART 2 -->
+    <div class="section">
+      <div class="section-head">
+        <span class="section-title">② Max Pain Evolution</span>
+        <span class="section-desc">Daily snapshots per expiry — how max pain shifts over time. White zones = future expiries.</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-line" style="background:var(--accent);"></div>Max Pain (daily)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--call);"></div>Call OI</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--put);"></div>Put OI</div>
+      </div>
+      <div class="chart-wrap-scroll">
+        <div class="chart-inner-wide">
+          <canvas id="chart2"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART 3 -->
+    <div class="section">
+      <div class="section-head">
+        <span class="section-title">③ Expiry Accuracy + Put/Call Ratio</span>
+        <span class="section-desc">Actual close (★) vs final max pain prediction — past expiries only. Bars show put/call ratio.</span>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-line" style="background:var(--yellow);"></div>Actual Close ★</div>
+        <div class="legend-item"><div class="legend-line" style="background:var(--accent);"></div>Final Max Pain</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(240,208,96,0.4);"></div>Put/Call Ratio (bars)</div>
+      </div>
+      <div id="chart3-wrap" class="chart-wrap">
+        <canvas id="chart3"></canvas>
+      </div>
+      <div id="chart3-empty" class="empty-state" style="display:none;">
+        <div class="icon">⏳</div>
+        <div>No expired options data yet</div>
+        <div style="font-size:0.65rem;">Chart 3 populates after the first tracked expiry passes</div>
+      </div>
+    </div>
+
+  </div><!-- /dashboard -->
+</div><!-- /content -->
+
+<script>
+  // ── Globals ──────────────────────────────────────────────
+  const ACCENT   = '#00e5a0';
+  const YELLOW   = '#f0d060';
+  const ORANGE   = '#ff6b35';
+  const CALL_BG  = 'rgba(0, 229, 160, 0.35)';
+  const PUT_BG   = 'rgba(255, 107, 53, 0.35)';
+  const PCR_BG   = 'rgba(240, 208, 96, 0.45)';
+  const MUTED    = '#5a7880';
+
+  let activeTicker = null;
+  let tickerMeta   = {};   // ticker -> { added, active }
+  let charts       = {};   // { chart1, chart2, chart3 }
+
+  // ── Boot ─────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', async () => {
+    const tickersResp = await fetch('./tickers.json');
+    const tickers     = await tickersResp.json();
+
+    const bar = document.getElementById('ticker-bar');
+
+    tickers.filter(t => t.active !== false).forEach(t => {
+      tickerMeta[t.ticker] = t;
+
+      const btn = document.createElement('button');
+      btn.className   = 'ticker-tab';
+      btn.dataset.ticker = t.ticker;
+      btn.innerHTML   = `<span class="dot"></span>${t.ticker}`;
+      btn.onclick     = () => selectTicker(t.ticker);
+      bar.appendChild(btn);
+    });
+
+    // Auto-select first
+    const first = tickers.find(t => t.active !== false);
+    if (first) selectTicker(first.ticker);
+  });
+
+  // ── Select ticker ─────────────────────────────────────────
+  async function selectTicker(sym) {
+    activeTicker = sym;
+
+    // Update tabs
+    document.querySelectorAll('.ticker-tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.ticker === sym);
+    });
+
+    document.getElementById('no-ticker').style.display  = 'none';
+    document.getElementById('dashboard').style.display  = 'block';
+
+    // Destroy old charts
+    Object.values(charts).forEach(c => c && c.destroy());
+    charts = {};
+
+    // Load data files
+    try {
+      const [hResp, ehResp, logResp] = await Promise.all([
+        fetch(`./data/${sym}/history.json`),
+        fetch(`./data/${sym}/expiry_history.json`),
+        fetch(`./data/${sym}/history_log.json`)
+      ]);
+      const payload       = await hResp.json();
+      const expiryHistory = await ehResp.json();
+      const historyLog    = await logResp.json();
+
+      document.getElementById('last-update').innerHTML =
+        `Last sync: ${payload.last_update} SGT<br>` +
+        `<span style="color:var(--accent);">${sym}</span> · tracking since ${tickerMeta[sym]?.added ?? '—'}`;
+
+      renderStats(sym, payload);
+      renderChart1(payload);
+      renderChart2(expiryHistory);
+      renderChart3(expiryHistory, historyLog);
+
+    } catch (e) {
+      console.error(`Failed to load data for ${sym}:`, e);
+    }
+  }
+
+  // ── Stats Row ─────────────────────────────────────────────
+  function renderStats(sym, payload) {
+    const spot    = payload.spot;
+    const nearest = payload.data[0];
+
+    document.getElementById('stat-spot').textContent         = spot ? `$${spot.toFixed(2)}` : '—';
+    document.getElementById('stat-ticker-label').textContent = sym;
+    document.getElementById('stat-expiries').textContent     = payload.data.length;
+
+    if (nearest) {
+      const pain  = nearest.max_pain;
+      const delta = spot ? (((pain - spot) / spot) * 100).toFixed(1) : null;
+      const pcr   = nearest.pc_ratio;
+
+      document.getElementById('stat-nearest-pain').textContent = `$${pain.toFixed(2)}`;
+      document.getElementById('stat-nearest-exp').textContent  = nearest.date;
+
+      const deltaEl = document.getElementById('stat-delta');
+      if (delta !== null) {
+        deltaEl.textContent  = `${delta > 0 ? '+' : ''}${delta}%`;
+        deltaEl.className    = `stat-value ${Math.abs(delta) < 3 ? 'green' : delta > 0 ? 'yellow' : 'orange'}`;
+      }
+
+      document.getElementById('stat-pcr').textContent =
+        pcr != null ? pcr.toFixed(2) : '—';
+    }
+  }
+
+  // ── Chart 1: Snapshot ─────────────────────────────────────
+  function renderChart1(payload) {
+    const ctx    = document.getElementById('chart1').getContext('2d');
+    const labels = payload.data.map(d => d.date);
+    const pains  = payload.data.map(d => d.max_pain);
+    const calls  = payload.data.map(d => d.call_oi);
+    const puts   = payload.data.map(d => d.put_oi);
+
+    // Monthly markers via point styling
+    const pointColors = payload.data.map(d => d.is_monthly ? YELLOW : ACCENT);
+    const pointSizes  = payload.data.map(d => d.is_monthly ? 9 : 5);
+
+    charts.chart1 = new Chart(ctx, {
+      data: {
+        labels,
+        datasets: [
+          {
+            type: 'line',
+            label: 'Max Pain',
+            data: pains,
+            borderColor: ACCENT,
+            borderWidth: 2.5,
+            pointBackgroundColor: pointColors,
+            pointRadius: pointSizes,
+            pointBorderColor: pointColors,
+            tension: 0.3,
+            yAxisID: 'yP',
+            order: 0
+          },
+          {
+            type: 'bar',
+            label: 'Call OI',
+            data: calls,
+            backgroundColor: CALL_BG,
+            yAxisID: 'yV',
+            stack: 'oi',
+            order: 1
+          },
+          {
+            type: 'bar',
+            label: 'Put OI',
+            data: puts,
+            backgroundColor: PUT_BG,
+            yAxisID: 'yV',
+            stack: 'oi',
+            order: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            ticks: { color: MUTED, font: { family: 'JetBrains Mono', size: 10 }, maxRotation: 45 },
+            grid:  { color: 'rgba(255,255,255,0.04)' }
+          },
+          yP: {
+            position: 'left',
+            beginAtZero: false,
+            grace: '10%',
+            ticks: { color: YELLOW, font: { family: 'JetBrains Mono', size: 10 },
+                     callback: v => `$${v.toLocaleString()}` },
+            grid: { color: 'rgba(255,255,255,0.06)' }
+          },
+          yV: {
+            display: false,
+            position: 'right',
+            beginAtZero: true,
+            stacked: true
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0e1518',
+            borderColor: '#1e2c30',
+            borderWidth: 1,
+            titleColor: YELLOW,
+            bodyColor: '#cdd9dc',
+            titleFont: { family: 'JetBrains Mono' },
+            bodyFont:  { family: 'JetBrains Mono', size: 11 },
+            callbacks: {
+              label: ctx => {
+                if (ctx.dataset.yAxisID === 'yP') return ` Max Pain: $${ctx.raw.toFixed(2)}`;
+                return ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString()}`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // ── Chart 2: Evolution ────────────────────────────────────
+  function renderChart2(expiryHistory) {
+    const ctx         = document.getElementById('chart2').getContext('2d');
+    const labels      = [];
+    const painData    = [];
+    const callData    = [];
+    const putData     = [];
+    const boundaries  = [];
+    const todayStr    = new Date().toISOString().split('T')[0];
+    let   idx         = 0;
+
+    Object.keys(expiryHistory).sort().forEach(exp => {
+      const startIdx = idx;
+      expiryHistory[exp].forEach(d => {
+        labels.push([d.trade_date.slice(5), exp.slice(5)]);
+        painData.push(d.max_pain);
+        callData.push(d.call_oi);
+        putData.push(d.put_oi);
+        idx++;
+      });
+      boundaries.push({
+        boundary: idx - 0.5,
+        isFuture: exp >= todayStr,
+        start:    startIdx - 0.5,
+        end:      idx - 0.5
+      });
+    });
+
+    const annotations = {};
+    boundaries.forEach((b, i) => {
+      annotations[`sep${i}`] = {
+        type: 'line',
+        xMin: b.boundary, xMax: b.boundary,
+        borderColor: 'rgba(240,208,96,0.5)',
+        borderWidth: 1
+      };
+      if (b.isFuture) {
+        annotations[`future${i}`] = {
+          type: 'box',
+          xMin: b.start, xMax: b.end,
+          backgroundColor: 'rgba(255,255,255,0.92)',
+          drawTime: 'beforeDatasetsDraw'
+        };
+      }
+    });
+
+    charts.chart2 = new Chart(ctx, {
+      data: {
+        labels,
+        datasets: [
+          {
+            type: 'line',
+            label: 'Max Pain',
+            data: painData,
+            borderColor: ACCENT,
+            borderWidth: 2,
+            pointRadius: 3,
+            pointBackgroundColor: ACCENT,
+            tension: 0.2,
+            yAxisID: 'yP',
+            order: 0
+          },
+          {
+            type: 'bar',
+            label: 'Call OI',
+            data: callData,
+            backgroundColor: CALL_BG,
+            yAxisID: 'yV',
+            stack: 'h',
+            order: 1
+          },
+          {
+            type: 'bar',
+            label: 'Put OI',
+            data: putData,
+            backgroundColor: PUT_BG,
+            yAxisID: 'yV',
+            stack: 'h',
+            order: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            ticks: { color: MUTED, font: { family: 'JetBrains Mono', size: 9 }, autoSkip: false },
+            grid:  { color: 'rgba(255,255,255,0.03)' }
+          },
+          yP: {
+            position: 'left',
+            beginAtZero: false,
+            grace: '10%',
+            ticks: { color: YELLOW, font: { family: 'JetBrains Mono', size: 10 },
+                     callback: v => `$${v.toLocaleString()}` },
+            grid: { color: 'rgba(255,255,255,0.05)' }
+          },
+          yV: {
+            display: false,
+            position: 'right',
+            stacked: true,
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          annotation: { annotations },
+          tooltip: {
+            backgroundColor: '#0e1518',
+            borderColor: '#1e2c30',
+            borderWidth: 1,
+            titleColor: YELLOW,
+            bodyColor: '#cdd9dc',
+            titleFont: { family: 'JetBrains Mono' },
+            bodyFont:  { family: 'JetBrains Mono', size: 11 }
+          }
+        }
+      }
+    });
+  }
+
+  // ── Chart 3: Accuracy + PCR ───────────────────────────────
+  function renderChart3(expiryHistory, historyLog) {
+    const wrapEl  = document.getElementById('chart3-wrap');
+    const emptyEl = document.getElementById('chart3-empty');
+    const ctx     = document.getElementById('chart3').getContext('2d');
+
+    const labs      = [];
+    const actuals   = [];
+    const painLine  = [];
+    const pcrBars   = [];
+
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    Object.keys(expiryHistory).sort().forEach(expDate => {
+      if (expDate >= todayStr) return;   // only past expiries
+
+      const cluster = expiryHistory[expDate];
+      if (!cluster || cluster.length === 0) return;
+
+      const finalSnap = cluster[cluster.length - 1];
+
+      // Find actual close — try expiry day, then next business day
+      const nextDay = new Date(new Date(expDate).getTime() + 86400000)
+                        .toISOString().split('T')[0];
+      const logEntry = historyLog.find(l => l.date === nextDay)
+                    || historyLog.find(l => l.date === expDate);
+
+      if (!logEntry) return;
+
+      const pcr = finalSnap.call_oi > 0
+        ? finalSnap.put_oi / finalSnap.call_oi
+        : null;
+
+      labs.push(expDate);
+      actuals.push(logEntry.spot);
+      painLine.push(finalSnap.max_pain);
+      pcrBars.push(pcr);
+    });
+
+    if (labs.length === 0) {
+      wrapEl.style.display  = 'none';
+      emptyEl.style.display = 'flex';
+      return;
+    }
+
+    wrapEl.style.display  = 'block';
+    emptyEl.style.display = 'none';
+
+    charts.chart3 = new Chart(ctx, {
+      data: {
+        labels: labs,
+        datasets: [
+          // Put/Call Ratio bars — drawn first (behind)
+          {
+            type: 'bar',
+            label: 'Put/Call Ratio',
+            data: pcrBars,
+            backgroundColor: PCR_BG,
+            borderColor: 'rgba(240,208,96,0.7)',
+            borderWidth: 1,
+            yAxisID: 'yR',
+            order: 2
+          },
+          // Max Pain line
+          {
+            type: 'line',
+            label: 'Final Max Pain',
+            data: painLine,
+            borderColor: ACCENT,
+            borderWidth: 2.5,
+            pointRadius: 5,
+            pointBackgroundColor: ACCENT,
+            tension: 0.3,
+            yAxisID: 'yP',
+            order: 1
+          },
+          // Actual close stars
+          {
+            type: 'line',
+            label: 'Actual Close',
+            data: actuals,
+            borderColor: YELLOW,
+            backgroundColor: YELLOW,
+            showLine: false,
+            pointStyle: 'star',
+            pointRadius: 12,
+            pointHoverRadius: 14,
+            yAxisID: 'yP',
+            order: 0
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            ticks: { color: MUTED, font: { family: 'JetBrains Mono', size: 10 }, maxRotation: 45 },
+            grid:  { color: 'rgba(255,255,255,0.04)' }
+          },
+          yP: {
+            position: 'left',
+            beginAtZero: false,
+            grace: '10%',
+            title: { display: true, text: 'Price ($)', color: MUTED,
+                     font: { family: 'JetBrains Mono', size: 10 } },
+            ticks: { color: YELLOW, font: { family: 'JetBrains Mono', size: 10 },
+                     callback: v => `$${v.toLocaleString()}` },
+            grid: { color: 'rgba(255,255,255,0.05)' }
+          },
+          yR: {
+            position: 'right',
+            beginAtZero: true,
+            title: { display: true, text: 'Put/Call Ratio', color: MUTED,
+                     font: { family: 'JetBrains Mono', size: 10 } },
+            ticks: { color: 'rgba(240,208,96,0.7)',
+                     font: { family: 'JetBrains Mono', size: 10 },
+                     callback: v => v.toFixed(2) },
+            grid: { display: false }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0e1518',
+            borderColor: '#1e2c30',
+            borderWidth: 1,
+            titleColor: YELLOW,
+            bodyColor: '#cdd9dc',
+            titleFont: { family: 'JetBrains Mono' },
+            bodyFont:  { family: 'JetBrains Mono', size: 11 },
+            callbacks: {
+              label: ctx => {
+                if (ctx.dataset.label === 'Put/Call Ratio')
+                  return ` P/C Ratio: ${ctx.raw != null ? ctx.raw.toFixed(2) : '—'}`;
+                if (ctx.dataset.label === 'Final Max Pain')
+                  return ` Max Pain: $${ctx.raw.toFixed(2)}`;
+                return ` Actual Close: $${ctx.raw.toFixed(2)}`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>
