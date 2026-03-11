@@ -101,11 +101,35 @@ def update_spot_log(ticker_sym, spot):
         json.dump(log[-60:], f, indent=4)
 
 
+def init_ticker_folder(ticker_sym):
+    """Creates data folder and seed files for a brand-new ticker if they don't exist."""
+    folder = f'data/{ticker_sym}'
+    os.makedirs(folder, exist_ok=True)
+
+    seeds = {
+        f'{folder}/history.json':        json.dumps({"last_update": "—", "spot": None, "data": []}, indent=4),
+        f'{folder}/expiry_history.json': '{}',
+        f'{folder}/history_log.json':    '[]',
+    }
+    created = []
+    for path, content in seeds.items():
+        if not os.path.exists(path) or os.path.getsize(path) == 0:
+            with open(path, 'w') as f:
+                f.write(content)
+            created.append(os.path.basename(path))
+
+    if created:
+        print(f"  🆕 New ticker — created: {', '.join(created)}")
+
+
 def process_ticker(ticker_sym):
     """Runs the full update pipeline for a single ticker."""
     print(f"\n{'=' * 60}")
     print(f"  {ticker_sym}  |  {datetime.now(SGT).strftime('%Y-%m-%d %H:%M SGT')}")
     print(f"{'=' * 60}")
+
+    # Auto-create folder and seed files if this is a new ticker
+    init_ticker_folder(ticker_sym)
 
     ticker = yf.Ticker(ticker_sym)
 
