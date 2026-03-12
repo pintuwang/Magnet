@@ -150,7 +150,7 @@ def process_ticker(ticker_sym):
         except Exception:
             continue
     if spot <= 0:
-        print(f"  ⚠️  All spot price methods failed — sanity filter will use OI-only mode")
+        print(f"  ⚠️  All spot price methods failed")
     print(f"  Spot: ${spot:.2f}")
 
     # --- Options expiries within 180 days ---
@@ -162,7 +162,7 @@ def process_ticker(ticker_sym):
         print(f"  ⚠️  Could not fetch options chain: {e}")
         return
 
-    # Diagnostic: show every expiry yfinance returned so you can spot missing weeklies
+    # Diagnostic: show every expiry yfinance returned
     print(f"  yfinance returned {len(raw_expiries)} total expiries:")
     for e in raw_expiries:
         weekly_flag = "" if (15 <= int(e.split('-')[2]) <= 21) else " [weekly]"
@@ -179,12 +179,11 @@ def process_ticker(ticker_sym):
 
         if m_pain:
             total_oi = call_oi + put_oi
-            # Gate 1: minimum OI — reject ghost/thin contracts regardless of spot
-            if total_oi < 20:
-                print(f"⚠️  Pain ${m_pain:.2f} rejected — total OI {total_oi} too low (min 100)")
-            # Gate 2: spot sanity — reject pre-split strikes if we have a valid spot
-            elif spot > 0 and (m_pain < spot * 0.20 or m_pain > spot * 2.5):
-                print(f"⚠️  Pain ${m_pain:.2f} rejected — outside sane range of spot ${spot:.2f} [{spot*0.30:.0f}–{spot*3.0:.0f}]")
+            # Only reject expiries with very low OI — not enough data for meaningful max pain.
+            # Note: spot ratio filters were removed as they incorrectly reject small cap stocks
+            # where max pain legitimately sits far from spot due to sparse strike ladders.
+            if total_oi < 50:
+                print(f"⚠️  Pain ${m_pain:.2f} rejected — total OI {total_oi} too low (min 50)")
             else:
                 chain_data.append({
                     "date":       exp,
