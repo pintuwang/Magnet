@@ -133,23 +133,39 @@ def process_ticker(ticker_sym):
 
     ticker = yf.Ticker(ticker_sym)
 
-    # --- Spot price ---
+    # --- Spot price — try multiple methods for reliability ---
+    spot = 0.0
     try:
-        spot = float(ticker.history(period="1d")['Close'].iloc[-1])
-        print(f"  Spot: ${spot:.2f}")
-    except Exception as e:
-        print(f"  ⚠️  Could not fetch spot price: {e}")
-        spot = 0.0
+        # Method 1: fast_info (most reliable, single API call)
+        spot = float(ticker.fast_info['lastPrice'])
+    except Exception:
+        pass
+    if spot <= 0:
+        try:
+            # Method 2: history fallback
+            spot = float(ticker.history(period="5d")['Close'].dropna().iloc[-1])
+        except Exception as e:
+            print(f"  ⚠️  Could not fetch spot price: {e}")
+    print(f"  Spot: ${spot:.2f}")
 
     # --- Options expiries within 180 days ---
     cutoff     = (datetime.now(SGT) + timedelta(days=180)).strftime("%Y-%m-%d")
     try:
-        all_expiries = [e for e in ticker.options if e <= cutoff]
+        raw_expiries = ticker.options
+        all_expiries = [e for e in raw_expiries if e <= cutoff]
     except Exception as e:
         print(f"  ⚠️  Could not fetch options chain: {e}")
         return
 
-    print(f"  Fetching {len(all_expiries)} expiries...\n")
+    # Diagnostic: show every expiry yfinance returned so you can spot missing weeklies
+    print(f"  yfinance returned {len(raw_expiries)} total expiries:")
+    for e in raw_expiries:
+        weekly_flag = "" if (15 <= int(e.split('-')[2]) <= 21) else " [weekly]"
+        in_window   = " ✓" if e <= cutoff else " (beyond 180d)"
+        print(f"    {e}{weekly_flag}{in_window}")
+    print()
+
+    print(f"  Processing {len(all_expiries)} expiries within 180-day window...\n")
 
     chain_data = []
     for i, exp in enumerate(all_expiries, 1):
@@ -157,15 +173,20 @@ def process_ticker(ticker_sym):
         m_pain, call_oi, put_oi = calculate_max_pain(ticker, exp)
 
         if m_pain:
-            chain_data.append({
-                "date":       exp,
-                "max_pain":   round(m_pain, 2),
-                "call_oi":    call_oi,
-                "put_oi":     put_oi,
-                "pc_ratio":   round(put_oi / call_oi, 4) if call_oi > 0 else None,
-                "is_monthly": (15 <= int(exp.split('-')[2]) <= 21)
-            })
-            print(f"✓ Pain: ${m_pain:.2f}  |  C/P: {call_oi}/{put_oi}")
+            # Sanity check: reject pre-split ghost contracts and other bad data.
+            # Max pain should sit within 70% below or 200% above current spot.
+            if spot > 0 and (m_pain < spot * 0.30 or m_pain > spot * 3.0):
+                print(f"⚠️  Pain ${m_pain:.2f} rejected — outside sane range of spot ${spot:.2f}")
+            else:
+                chain_data.append({
+                    "date":       exp,
+                    "max_pain":   round(m_pain, 2),
+                    "call_oi":    call_oi,
+                    "put_oi":     put_oi,
+                    "pc_ratio":   round(put_oi / call_oi, 4) if call_oi > 0 else None,
+                    "is_monthly": (15 <= int(exp.split('-')[2]) <= 21)
+                })
+                print(f"✓ Pain: ${m_pain:.2f}  |  C/P: {call_oi}/{put_oi}")
         else:
             total_oi = call_oi + put_oi
             if total_oi > 0:
