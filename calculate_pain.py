@@ -135,17 +135,22 @@ def process_ticker(ticker_sym):
 
     # --- Spot price — try multiple methods for reliability ---
     spot = 0.0
-    try:
-        # Method 1: fast_info (most reliable, single API call)
-        spot = float(ticker.fast_info['lastPrice'])
-    except Exception:
-        pass
-    if spot <= 0:
+    methods = [
+        lambda: float(ticker.fast_info['lastPrice']),
+        lambda: float(ticker.fast_info['regularMarketPrice']),
+        lambda: float(ticker.history(period="5d")['Close'].dropna().iloc[-1]),
+        lambda: float(ticker.info.get('regularMarketPrice', 0)),
+    ]
+    for method in methods:
         try:
-            # Method 2: history fallback
-            spot = float(ticker.history(period="5d")['Close'].dropna().iloc[-1])
-        except Exception as e:
-            print(f"  ⚠️  Could not fetch spot price: {e}")
+            val = method()
+            if val and val > 0:
+                spot = val
+                break
+        except Exception:
+            continue
+    if spot <= 0:
+        print(f"  ⚠️  All spot price methods failed — sanity filter will use OI-only mode")
     print(f"  Spot: ${spot:.2f}")
 
     # --- Options expiries within 180 days ---
@@ -173,10 +178,13 @@ def process_ticker(ticker_sym):
         m_pain, call_oi, put_oi = calculate_max_pain(ticker, exp)
 
         if m_pain:
-            # Sanity check: reject pre-split ghost contracts and other bad data.
-            # Max pain should sit within 70% below or 200% above current spot.
-            if spot > 0 and (m_pain < spot * 0.30 or m_pain > spot * 3.0):
-                print(f"⚠️  Pain ${m_pain:.2f} rejected — outside sane range of spot ${spot:.2f}")
+            total_oi = call_oi + put_oi
+            # Gate 1: minimum OI — reject ghost/thin contracts regardless of spot
+            if total_oi < 100:
+                print(f"⚠️  Pain ${m_pain:.2f} rejected — total OI {total_oi} too low (min 100)")
+            # Gate 2: spot sanity — reject pre-split strikes if we have a valid spot
+            elif spot > 0 and (m_pain < spot * 0.30 or m_pain > spot * 3.0):
+                print(f"⚠️  Pain ${m_pain:.2f} rejected — outside sane range of spot ${spot:.2f} [{spot*0.30:.0f}–{spot*3.0:.0f}]")
             else:
                 chain_data.append({
                     "date":       exp,
@@ -186,7 +194,7 @@ def process_ticker(ticker_sym):
                     "pc_ratio":   round(put_oi / call_oi, 4) if call_oi > 0 else None,
                     "is_monthly": (15 <= int(exp.split('-')[2]) <= 21)
                 })
-                print(f"✓ Pain: ${m_pain:.2f}  |  C/P: {call_oi}/{put_oi}")
+                print(f"✓ Pain: ${m_pain:.2f}  |  C/P: {call_oi}/{put_oi}  |  total OI: {total_oi}")
         else:
             total_oi = call_oi + put_oi
             if total_oi > 0:
