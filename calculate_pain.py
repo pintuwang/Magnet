@@ -180,10 +180,10 @@ def process_ticker(ticker_sym):
         if m_pain:
             total_oi = call_oi + put_oi
             # Gate 1: minimum OI — reject ghost/thin contracts regardless of spot
-            if total_oi < 100:
+            if total_oi < 20:
                 print(f"⚠️  Pain ${m_pain:.2f} rejected — total OI {total_oi} too low (min 100)")
             # Gate 2: spot sanity — reject pre-split strikes if we have a valid spot
-            elif spot > 0 and (m_pain < spot * 0.30 or m_pain > spot * 1.5):
+            elif spot > 0 and (m_pain < spot * 0.20 or m_pain > spot * 2.5):
                 print(f"⚠️  Pain ${m_pain:.2f} rejected — outside sane range of spot ${spot:.2f} [{spot*0.30:.0f}–{spot*3.0:.0f}]")
             else:
                 chain_data.append({
