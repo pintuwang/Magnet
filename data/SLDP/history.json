@@ -1,5 +1,14 @@
 {
-    "last_update": "2026-03-12 15:29",
+    "last_update": "2026-03-12 15:42",
     "spot": 3.26,
-    "data": []
+    "data": [
+        {
+            "date": "2026-08-21",
+            "max_pain": 2.5,
+            "call_oi": 20,
+            "put_oi": 0,
+            "pc_ratio": 0.0,
+            "is_monthly": true
+        }
+    ]
 }
