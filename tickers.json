@@ -1,5 +1,10 @@
 [
   { "ticker": "AEHR", "added": "2026-03-11", "active": true },
-  { "ticker": "SLDP", "added": "2026-03-11", "active": true }
-  
-]
+  { "ticker": "CBUS", "added": "2026-03-12", "active": true },
+  { "ticker": "NFLX", "added": "2026-03-11", "active": true },
+  { "ticker": "NU", "added": "2026-03-11", "active": true },
+  { "ticker": "NVDA", "added": "2026-03-11", "active": true },
+  { "ticker": "SLDP", "added": "2026-03-11", "active": true },
+  { "ticker": "TTD", "added": "2026-03-11", "active": true },
+  { "ticker": "TSLA", "added": "2026-03-11", "active": true },
+  ]
