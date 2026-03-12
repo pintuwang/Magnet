@@ -541,12 +541,15 @@
                      callback: v => `$${v.toLocaleString()}` },
             grid: { color: 'rgba(255,255,255,0.06)' }
           },
-          yV: {
+           yV: {
             display: false,
             position: 'right',
             beginAtZero: true,
-            stacked: true
+            min: 0,
+            stacked: true,
+            afterDataLimits: axis => { axis.max = axis.max * 4; }
           }
+          
         },
         plugins: {
           legend: { display: false },
@@ -672,8 +675,11 @@
             display: false,
             position: 'right',
             stacked: true,
-            beginAtZero: true
+            beginAtZero: true,
+            min: 0,
+            afterDataLimits: axis => { axis.max = axis.max * 4; }
           }
+          
         },
         plugins: {
           legend: { display: false },
