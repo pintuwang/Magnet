@@ -313,7 +313,6 @@
         <span class="section-desc">Current max pain strike and open interest across all upcoming expiries</span>
       </div>
       <div class="legend-row">
-        
         <div class="legend-item"><div class="legend-line" style="background:var(--accent);"></div>Max Pain Strike</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--call);"></div>Call OI</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--put);"></div>Put OI</div>
@@ -354,7 +353,7 @@
         <div class="legend-item"><div class="legend-dot" style="background:var(--call);"></div>Call OI</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--put);"></div>Put OI</div>
         <div class="legend-item"><div class="legend-line" style="background:rgba(0,200,255,0.8); border-top: 2px dashed rgba(0,200,255,0.8); height:0;"></div>P/C Ratio</div>
-     
+      </div>
       <div id="chart3-wrap" class="chart-wrap">
         <canvas id="chart3"></canvas>
       </div>
@@ -794,7 +793,6 @@
             order: 2,
             spanGaps: true
           },
-          
           // Max Pain line — left axis
           {
             type: 'line',
@@ -836,8 +834,6 @@
             position: 'left',
             beginAtZero: false,
             grace: '10%',
-            title: { display: true, text: 'Price ($)', color: MUTED,
-                     font: { family: 'JetBrains Mono', size: 10 } },
             ticks: { color: YELLOW, font: { family: 'JetBrains Mono', size: 10 },
                      callback: v => `$${v.toLocaleString()}` },
             grid: { color: 'rgba(255,255,255,0.05)' }
@@ -845,8 +841,6 @@
           yR: {
             position: 'right',
             beginAtZero: true,
-            title: { display: true, text: 'P/C Ratio', color: MUTED,
-                     font: { family: 'JetBrains Mono', size: 10 } },
             ticks: { color: 'rgba(0,200,255,0.8)',
                      font: { family: 'JetBrains Mono', size: 10 },
                      callback: v => v.toFixed(2) },
