@@ -313,6 +313,7 @@
         <span class="section-desc">Current max pain strike and open interest across all upcoming expiries</span>
       </div>
       <div class="legend-row">
+        
         <div class="legend-item"><div class="legend-line" style="background:var(--accent);"></div>Max Pain Strike</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--call);"></div>Call OI</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--put);"></div>Put OI</div>
@@ -352,8 +353,8 @@
         <div class="legend-item"><div class="legend-line" style="background:var(--accent);"></div>Final Max Pain</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--call);"></div>Call OI</div>
         <div class="legend-item"><div class="legend-dot" style="background:var(--put);"></div>Put OI</div>
-        <div class="legend-item"><div class="legend-line" style="background:rgba(240,208,96,0.8); border-top: 2px dashed rgba(240,208,96,0.8); height:0;"></div>P/C Ratio</div>
-      </div>
+        <div class="legend-item"><div class="legend-line" style="background:rgba(0,200,255,0.8); border-top: 2px dashed rgba(0,200,255,0.8); height:0;"></div>P/C Ratio</div>
+     
       <div id="chart3-wrap" class="chart-wrap">
         <canvas id="chart3"></canvas>
       </div>
@@ -776,21 +777,24 @@
             stack: 'oi',
             order: 3
           },
-          // Put/Call Ratio line — right axis, dashed yellow
+          // Put/Call Ratio line — right axis, neon blue dashed
           {
             type: 'line',
             label: 'P/C Ratio',
             data: pcrLine,
-            borderColor: 'rgba(240,208,96,0.85)',
+            borderColor: 'rgba(0,200,255,0.85)',
             borderWidth: 1.5,
             borderDash: [4, 4],
-            pointRadius: 3,
-            pointBackgroundColor: 'rgba(240,208,96,0.85)',
+            pointRadius: 5,
+            pointStyle: 'diamond',
+            pointBackgroundColor: 'rgba(0,200,255,0.9)',
+            pointBorderColor: 'rgba(0,200,255,1)',
             tension: 0.3,
             yAxisID: 'yR',
             order: 2,
             spanGaps: true
           },
+          
           // Max Pain line — left axis
           {
             type: 'line',
@@ -843,7 +847,7 @@
             beginAtZero: true,
             title: { display: true, text: 'P/C Ratio', color: MUTED,
                      font: { family: 'JetBrains Mono', size: 10 } },
-            ticks: { color: 'rgba(240,208,96,0.7)',
+            ticks: { color: 'rgba(0,200,255,0.8)',
                      font: { family: 'JetBrains Mono', size: 10 },
                      callback: v => v.toFixed(2) },
             grid: { display: false }
