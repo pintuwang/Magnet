@@ -345,12 +345,14 @@
     <div class="section">
       <div class="section-head">
         <span class="section-title">③ Expiry Accuracy + Put/Call Ratio</span>
-        <span class="section-desc">Actual close (★) vs final max pain prediction — past expiries only. Bars show put/call ratio.</span>
+        <span class="section-desc">Actual close (★) vs final max pain prediction — past expiries only. OI bars show positioning; P/C ratio line shows sentiment.</span>
       </div>
       <div class="legend-row">
         <div class="legend-item"><div class="legend-line" style="background:var(--yellow);"></div>Actual Close ★</div>
         <div class="legend-item"><div class="legend-line" style="background:var(--accent);"></div>Final Max Pain</div>
-        <div class="legend-item"><div class="legend-dot" style="background:rgba(240,208,96,0.4);"></div>Put/Call Ratio (bars)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--call);"></div>Call OI</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--put);"></div>Put OI</div>
+        <div class="legend-item"><div class="legend-line" style="background:rgba(240,208,96,0.8); border-top: 2px dashed rgba(240,208,96,0.8); height:0;"></div>P/C Ratio</div>
       </div>
       <div id="chart3-wrap" class="chart-wrap">
         <canvas id="chart3"></canvas>
@@ -698,16 +700,18 @@
     });
   }
 
-  // ── Chart 3: Accuracy + PCR ───────────────────────────────
+  // ── Chart 3: Accuracy + OI Bars + PCR Line ──────────────────
   function renderChart3(expiryHistory, historyLog) {
     const wrapEl  = document.getElementById('chart3-wrap');
     const emptyEl = document.getElementById('chart3-empty');
     const ctx     = document.getElementById('chart3').getContext('2d');
 
-    const labs      = [];
-    const actuals   = [];
-    const painLine  = [];
-    const pcrBars   = [];
+    const labs     = [];
+    const actuals  = [];
+    const painLine = [];
+    const callBars = [];
+    const putBars  = [];
+    const pcrLine  = [];
 
     const todayStr = new Date().toISOString().split('T')[0];
 
@@ -728,13 +732,15 @@
       if (!logEntry) return;
 
       const pcr = finalSnap.call_oi > 0
-        ? finalSnap.put_oi / finalSnap.call_oi
+        ? parseFloat((finalSnap.put_oi / finalSnap.call_oi).toFixed(3))
         : null;
 
       labs.push(expDate);
       actuals.push(logEntry.spot);
       painLine.push(finalSnap.max_pain);
-      pcrBars.push(pcr);
+      callBars.push(finalSnap.call_oi);
+      putBars.push(finalSnap.put_oi);
+      pcrLine.push(pcr);
     });
 
     if (labs.length === 0) {
@@ -750,18 +756,42 @@
       data: {
         labels: labs,
         datasets: [
-          // Put/Call Ratio bars — drawn first (behind)
+          // Call OI bars — background, stacked
           {
             type: 'bar',
-            label: 'Put/Call Ratio',
-            data: pcrBars,
-            backgroundColor: PCR_BG,
-            borderColor: 'rgba(240,208,96,0.7)',
-            borderWidth: 1,
-            yAxisID: 'yR',
-            order: 2
+            label: 'Call OI',
+            data: callBars,
+            backgroundColor: CALL_BG,
+            yAxisID: 'yV',
+            stack: 'oi',
+            order: 3
           },
-          // Max Pain line
+          // Put OI bars — background, stacked
+          {
+            type: 'bar',
+            label: 'Put OI',
+            data: putBars,
+            backgroundColor: PUT_BG,
+            yAxisID: 'yV',
+            stack: 'oi',
+            order: 3
+          },
+          // Put/Call Ratio line — right axis, dashed yellow
+          {
+            type: 'line',
+            label: 'P/C Ratio',
+            data: pcrLine,
+            borderColor: 'rgba(240,208,96,0.85)',
+            borderWidth: 1.5,
+            borderDash: [4, 4],
+            pointRadius: 3,
+            pointBackgroundColor: 'rgba(240,208,96,0.85)',
+            tension: 0.3,
+            yAxisID: 'yR',
+            order: 2,
+            spanGaps: true
+          },
+          // Max Pain line — left axis
           {
             type: 'line',
             label: 'Final Max Pain',
@@ -774,7 +804,7 @@
             yAxisID: 'yP',
             order: 1
           },
-          // Actual close stars
+          // Actual close stars — left axis
           {
             type: 'line',
             label: 'Actual Close',
@@ -811,12 +841,20 @@
           yR: {
             position: 'right',
             beginAtZero: true,
-            title: { display: true, text: 'Put/Call Ratio', color: MUTED,
+            title: { display: true, text: 'P/C Ratio', color: MUTED,
                      font: { family: 'JetBrains Mono', size: 10 } },
             ticks: { color: 'rgba(240,208,96,0.7)',
                      font: { family: 'JetBrains Mono', size: 10 },
                      callback: v => v.toFixed(2) },
             grid: { display: false }
+          },
+          yV: {
+            display: false,
+            position: 'right',
+            beginAtZero: true,
+            min: 0,
+            stacked: true,
+            afterDataLimits: axis => { axis.max = axis.max * 4; }
           }
         },
         plugins: {
@@ -831,7 +869,11 @@
             bodyFont:  { family: 'JetBrains Mono', size: 11 },
             callbacks: {
               label: ctx => {
-                if (ctx.dataset.label === 'Put/Call Ratio')
+                if (ctx.dataset.label === 'Call OI')
+                  return ` Call OI: ${ctx.raw != null ? ctx.raw.toLocaleString() : '—'}`;
+                if (ctx.dataset.label === 'Put OI')
+                  return ` Put OI: ${ctx.raw != null ? ctx.raw.toLocaleString() : '—'}`;
+                if (ctx.dataset.label === 'P/C Ratio')
                   return ` P/C Ratio: ${ctx.raw != null ? ctx.raw.toFixed(2) : '—'}`;
                 if (ctx.dataset.label === 'Final Max Pain')
                   return ` Max Pain: $${ctx.raw.toFixed(2)}`;
