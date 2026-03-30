@@ -1,93 +1,93 @@
 {
-    "last_update": "2026-03-28 06:27",
-    "spot": 93.43,
+    "last_update": "2026-03-30 22:27",
+    "spot": 93.31,
     "data": [
-        {
-            "date": "2026-03-27",
-            "max_pain": 92.0,
-            "call_oi": 140324,
-            "put_oi": 85371,
-            "pc_ratio": 0.6084,
-            "is_monthly": false
-        },
         {
             "date": "2026-04-02",
             "max_pain": 92.0,
-            "call_oi": 75974,
-            "put_oi": 56672,
-            "pc_ratio": 0.7459,
+            "call_oi": 99456,
+            "put_oi": 66894,
+            "pc_ratio": 0.6726,
             "is_monthly": false
         },
         {
             "date": "2026-04-10",
-            "max_pain": 94.0,
-            "call_oi": 37670,
-            "put_oi": 33035,
-            "pc_ratio": 0.877,
+            "max_pain": 93.0,
+            "call_oi": 43594,
+            "put_oi": 35538,
+            "pc_ratio": 0.8152,
             "is_monthly": false
         },
         {
             "date": "2026-04-17",
             "max_pain": 90.0,
-            "call_oi": 308434,
-            "put_oi": 290505,
-            "pc_ratio": 0.9419,
+            "call_oi": 320694,
+            "put_oi": 298696,
+            "pc_ratio": 0.9314,
             "is_monthly": true
         },
         {
             "date": "2026-04-24",
-            "max_pain": 94.0,
-            "call_oi": 12763,
-            "put_oi": 6920,
-            "pc_ratio": 0.5422,
+            "max_pain": 95.0,
+            "call_oi": 15852,
+            "put_oi": 11109,
+            "pc_ratio": 0.7008,
             "is_monthly": false
         },
         {
             "date": "2026-05-01",
             "max_pain": 93.0,
-            "call_oi": 4299,
-            "put_oi": 5166,
-            "pc_ratio": 1.2017,
+            "call_oi": 6422,
+            "put_oi": 5534,
+            "pc_ratio": 0.8617,
+            "is_monthly": false
+        },
+        {
+            "date": "2026-05-08",
+            "max_pain": 94.0,
+            "call_oi": 414,
+            "put_oi": 586,
+            "pc_ratio": 1.4155,
             "is_monthly": false
         },
         {
             "date": "2026-05-15",
             "max_pain": 90.0,
-            "call_oi": 350178,
-            "put_oi": 260458,
-            "pc_ratio": 0.7438,
+            "call_oi": 354260,
+            "put_oi": 261598,
+            "pc_ratio": 0.7384,
             "is_monthly": true
         },
         {
             "date": "2026-06-18",
             "max_pain": 99.0,
-            "call_oi": 387625,
-            "put_oi": 354054,
-            "pc_ratio": 0.9134,
+            "call_oi": 387363,
+            "put_oi": 354581,
+            "pc_ratio": 0.9154,
             "is_monthly": true
         },
         {
             "date": "2026-07-17",
             "max_pain": 80.0,
-            "call_oi": 54903,
-            "put_oi": 66573,
-            "pc_ratio": 1.2126,
+            "call_oi": 55673,
+            "put_oi": 67480,
+            "pc_ratio": 1.2121,
             "is_monthly": true
         },
         {
             "date": "2026-08-21",
             "max_pain": 94.0,
-            "call_oi": 276605,
-            "put_oi": 149289,
-            "pc_ratio": 0.5397,
+            "call_oi": 276393,
+            "put_oi": 149140,
+            "pc_ratio": 0.5396,
             "is_monthly": true
         },
         {
             "date": "2026-09-18",
             "max_pain": 90.0,
-            "call_oi": 225812,
-            "put_oi": 138758,
-            "pc_ratio": 0.6145,
+            "call_oi": 226107,
+            "put_oi": 139952,
+            "pc_ratio": 0.619,
             "is_monthly": true
         }
     ]
