@@ -57,12 +57,6 @@
     ],
     "2026-05-15": [
         {
-            "trade_date": "2026-04-13",
-            "max_pain": 27.5,
-            "call_oi": 65350,
-            "put_oi": 30495
-        },
-        {
             "trade_date": "2026-04-14",
             "max_pain": 27.5,
             "call_oi": 65350,
@@ -115,6 +109,12 @@
             "max_pain": 25.0,
             "call_oi": 81160,
             "put_oi": 51515
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 25.0,
+            "call_oi": 81769,
+            "put_oi": 51998
         }
     ],
     "2026-03-13": [
@@ -387,12 +387,6 @@
     ],
     "2026-04-24": [
         {
-            "trade_date": "2026-04-13",
-            "max_pain": 22.0,
-            "call_oi": 9986,
-            "put_oi": 7517
-        },
-        {
             "trade_date": "2026-04-14",
             "max_pain": 22.0,
             "call_oi": 9986,
@@ -445,15 +439,15 @@
             "max_pain": 22.5,
             "call_oi": 46679,
             "put_oi": 14563
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 22.5,
+            "call_oi": 48338,
+            "put_oi": 15217
         }
     ],
     "2026-06-18": [
-        {
-            "trade_date": "2026-04-13",
-            "max_pain": 30.0,
-            "call_oi": 93361,
-            "put_oi": 39206
-        },
         {
             "trade_date": "2026-04-14",
             "max_pain": 30.0,
@@ -507,15 +501,15 @@
             "max_pain": 30.0,
             "call_oi": 100832,
             "put_oi": 41534
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 27.5,
+            "call_oi": 104356,
+            "put_oi": 41708
         }
     ],
     "2026-07-17": [
-        {
-            "trade_date": "2026-04-13",
-            "max_pain": 30.0,
-            "call_oi": 19995,
-            "put_oi": 17022
-        },
         {
             "trade_date": "2026-04-14",
             "max_pain": 30.0,
@@ -569,15 +563,15 @@
             "max_pain": 25.0,
             "call_oi": 24474,
             "put_oi": 19686
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 25.0,
+            "call_oi": 24757,
+            "put_oi": 21901
         }
     ],
     "2026-05-01": [
-        {
-            "trade_date": "2026-04-13",
-            "max_pain": 21.0,
-            "call_oi": 7211,
-            "put_oi": 3392
-        },
         {
             "trade_date": "2026-04-14",
             "max_pain": 21.0,
@@ -631,15 +625,15 @@
             "max_pain": 22.0,
             "call_oi": 17103,
             "put_oi": 8160
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 22.0,
+            "call_oi": 19069,
+            "put_oi": 8709
         }
     ],
     "2026-09-18": [
-        {
-            "trade_date": "2026-04-13",
-            "max_pain": 35.0,
-            "call_oi": 58641,
-            "put_oi": 42756
-        },
         {
             "trade_date": "2026-04-14",
             "max_pain": 35.0,
@@ -693,15 +687,15 @@
             "max_pain": 35.0,
             "call_oi": 60166,
             "put_oi": 43133
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 35.0,
+            "call_oi": 60150,
+            "put_oi": 43082
         }
     ],
     "2026-05-08": [
-        {
-            "trade_date": "2026-04-13",
-            "max_pain": 21.0,
-            "call_oi": 4174,
-            "put_oi": 1679
-        },
         {
             "trade_date": "2026-04-14",
             "max_pain": 21.0,
@@ -755,15 +749,15 @@
             "max_pain": 22.0,
             "call_oi": 12212,
             "put_oi": 3479
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 22.0,
+            "call_oi": 12962,
+            "put_oi": 4264
         }
     ],
     "2026-05-22": [
-        {
-            "trade_date": "2026-04-13",
-            "max_pain": 23.0,
-            "call_oi": 340,
-            "put_oi": 655
-        },
         {
             "trade_date": "2026-04-14",
             "max_pain": 23.0,
@@ -817,15 +811,15 @@
             "max_pain": 21.5,
             "call_oi": 1637,
             "put_oi": 1157
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 22.0,
+            "call_oi": 1818,
+            "put_oi": 1291
         }
     ],
     "2026-05-29": [
-        {
-            "trade_date": "2026-04-13",
-            "max_pain": 15.5,
-            "call_oi": 149,
-            "put_oi": 123
-        },
         {
             "trade_date": "2026-04-14",
             "max_pain": 15.5,
@@ -879,6 +873,12 @@
             "max_pain": 22.5,
             "call_oi": 1214,
             "put_oi": 1369
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 22.5,
+            "call_oi": 1291,
+            "put_oi": 1399
         }
     ],
     "2026-10-16": [
@@ -905,6 +905,12 @@
             "max_pain": 25.0,
             "call_oi": 3082,
             "put_oi": 1494
+        },
+        {
+            "trade_date": "2026-04-24",
+            "max_pain": 25.0,
+            "call_oi": 3447,
+            "put_oi": 1640
         }
     ]
 }
