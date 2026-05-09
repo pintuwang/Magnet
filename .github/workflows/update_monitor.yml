@@ -13,16 +13,23 @@ concurrency:
 permissions:
   contents: write              # Required to commit JSON data back to repo
 
+# ── Node.js 24 compatibility ──────────────────────────────────────────────────
+# Opts in ahead of June 2 2026 forced cutover (Node 20 removed Sep 16 2026)
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 30        # Extended for multiple tickers
 
     steps:
-      - uses: actions/checkout@v3
+      # ── UPDATED: v3 → v4 (Node 20 → 24 compatible) ──
+      - uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        # ── UPDATED: v4 → v5 (Node 20 → 24 compatible) ──
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
