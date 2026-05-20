@@ -1,101 +1,101 @@
 {
-    "last_update": "2026-05-20 06:59",
-    "spot": 220.61,
+    "last_update": "2026-05-21 00:26",
+    "spot": 224.05,
     "data": [
         {
             "date": "2026-05-22",
-            "max_pain": 212.5,
-            "call_oi": 707160,
-            "put_oi": 404945,
-            "pc_ratio": 0.5726,
+            "max_pain": 215.0,
+            "call_oi": 784809,
+            "put_oi": 446099,
+            "pc_ratio": 0.5684,
             "is_monthly": false
         },
         {
             "date": "2026-05-26",
-            "max_pain": 217.5,
-            "call_oi": 57878,
-            "put_oi": 22803,
-            "pc_ratio": 0.394,
+            "max_pain": 220.0,
+            "call_oi": 76273,
+            "put_oi": 31698,
+            "pc_ratio": 0.4156,
             "is_monthly": false
         },
         {
             "date": "2026-05-27",
-            "max_pain": 230.0,
-            "call_oi": 23237,
-            "put_oi": 10545,
-            "pc_ratio": 0.4538,
+            "max_pain": 225.0,
+            "call_oi": 32060,
+            "put_oi": 15103,
+            "pc_ratio": 0.4711,
             "is_monthly": false
         },
         {
             "date": "2026-05-29",
-            "max_pain": 200.0,
-            "call_oi": 259299,
-            "put_oi": 154245,
-            "pc_ratio": 0.5949,
+            "max_pain": 205.0,
+            "call_oi": 289069,
+            "put_oi": 172705,
+            "pc_ratio": 0.5975,
             "is_monthly": false
         },
         {
             "date": "2026-06-05",
             "max_pain": 200.0,
-            "call_oi": 150782,
-            "put_oi": 128846,
-            "pc_ratio": 0.8545,
+            "call_oi": 153291,
+            "put_oi": 129298,
+            "pc_ratio": 0.8435,
             "is_monthly": false
         },
         {
             "date": "2026-06-12",
             "max_pain": 215.0,
-            "call_oi": 118092,
-            "put_oi": 41330,
-            "pc_ratio": 0.35,
+            "call_oi": 123630,
+            "put_oi": 43897,
+            "pc_ratio": 0.3551,
             "is_monthly": false
         },
         {
             "date": "2026-06-18",
-            "max_pain": 165.0,
-            "call_oi": 1737609,
-            "put_oi": 1558285,
-            "pc_ratio": 0.8968,
+            "max_pain": 167.0,
+            "call_oi": 1746042,
+            "put_oi": 1573289,
+            "pc_ratio": 0.9011,
             "is_monthly": true
         },
         {
             "date": "2026-06-26",
             "max_pain": 220.0,
-            "call_oi": 46570,
-            "put_oi": 19559,
-            "pc_ratio": 0.42,
+            "call_oi": 49503,
+            "put_oi": 21232,
+            "pc_ratio": 0.4289,
             "is_monthly": false
         },
         {
             "date": "2026-07-17",
             "max_pain": 195.0,
-            "call_oi": 534435,
-            "put_oi": 377815,
-            "pc_ratio": 0.7069,
+            "call_oi": 542623,
+            "put_oi": 384104,
+            "pc_ratio": 0.7079,
             "is_monthly": true
         },
         {
             "date": "2026-08-21",
             "max_pain": 190.0,
-            "call_oi": 299348,
-            "put_oi": 290532,
-            "pc_ratio": 0.9705,
+            "call_oi": 304921,
+            "put_oi": 296057,
+            "pc_ratio": 0.9709,
             "is_monthly": true
         },
         {
             "date": "2026-09-18",
-            "max_pain": 175.0,
-            "call_oi": 508361,
-            "put_oi": 521463,
-            "pc_ratio": 1.0258,
+            "max_pain": 180.0,
+            "call_oi": 502217,
+            "put_oi": 526563,
+            "pc_ratio": 1.0485,
             "is_monthly": true
         },
         {
             "date": "2026-10-16",
             "max_pain": 200.0,
-            "call_oi": 104026,
-            "put_oi": 151306,
-            "pc_ratio": 1.4545,
+            "call_oi": 104379,
+            "put_oi": 152152,
+            "pc_ratio": 1.4577,
             "is_monthly": true
         }
     ]
