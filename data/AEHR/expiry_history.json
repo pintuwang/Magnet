@@ -125,12 +125,6 @@
     ],
     "2026-06-18": [
         {
-            "trade_date": "2026-05-25",
-            "max_pain": 70.0,
-            "call_oi": 10182,
-            "put_oi": 13490
-        },
-        {
             "trade_date": "2026-05-26",
             "max_pain": 70.0,
             "call_oi": 10182,
@@ -183,6 +177,12 @@
             "max_pain": 70.0,
             "call_oi": 10626,
             "put_oi": 15231
+        },
+        {
+            "trade_date": "2026-06-06",
+            "max_pain": 70.0,
+            "call_oi": 10446,
+            "put_oi": 15304
         }
     ],
     "2026-05-15": [
@@ -249,12 +249,6 @@
     ],
     "2026-09-18": [
         {
-            "trade_date": "2026-05-25",
-            "max_pain": 65.0,
-            "call_oi": 5389,
-            "put_oi": 6430
-        },
-        {
             "trade_date": "2026-05-26",
             "max_pain": 65.0,
             "call_oi": 5389,
@@ -307,6 +301,12 @@
             "max_pain": 65.0,
             "call_oi": 5464,
             "put_oi": 6627
+        },
+        {
+            "trade_date": "2026-06-06",
+            "max_pain": 65.0,
+            "call_oi": 5547,
+            "put_oi": 6621
         }
     ],
     "2026-05-01": [
@@ -535,12 +535,6 @@
     ],
     "2026-06-05": [
         {
-            "trade_date": "2026-05-25",
-            "max_pain": 85.0,
-            "call_oi": 947,
-            "put_oi": 1883
-        },
-        {
             "trade_date": "2026-05-26",
             "max_pain": 85.0,
             "call_oi": 947,
@@ -593,15 +587,15 @@
             "max_pain": 100.0,
             "call_oi": 5021,
             "put_oi": 9634
+        },
+        {
+            "trade_date": "2026-06-06",
+            "max_pain": 100.0,
+            "call_oi": 5126,
+            "put_oi": 9310
         }
     ],
     "2026-06-12": [
-        {
-            "trade_date": "2026-05-25",
-            "max_pain": 100.0,
-            "call_oi": 566,
-            "put_oi": 510
-        },
         {
             "trade_date": "2026-05-26",
             "max_pain": 100.0,
@@ -655,15 +649,15 @@
             "max_pain": 100.0,
             "call_oi": 1220,
             "put_oi": 2972
+        },
+        {
+            "trade_date": "2026-06-06",
+            "max_pain": 100.0,
+            "call_oi": 1319,
+            "put_oi": 3071
         }
     ],
     "2026-06-26": [
-        {
-            "trade_date": "2026-05-25",
-            "max_pain": 90.0,
-            "call_oi": 346,
-            "put_oi": 332
-        },
         {
             "trade_date": "2026-05-26",
             "max_pain": 90.0,
@@ -717,15 +711,15 @@
             "max_pain": 92.0,
             "call_oi": 1704,
             "put_oi": 623
+        },
+        {
+            "trade_date": "2026-06-06",
+            "max_pain": 92.0,
+            "call_oi": 2079,
+            "put_oi": 633
         }
     ],
     "2026-07-17": [
-        {
-            "trade_date": "2026-05-25",
-            "max_pain": 95.0,
-            "call_oi": 827,
-            "put_oi": 899
-        },
         {
             "trade_date": "2026-05-26",
             "max_pain": 95.0,
@@ -779,6 +773,12 @@
             "max_pain": 95.0,
             "call_oi": 2314,
             "put_oi": 1436
+        },
+        {
+            "trade_date": "2026-06-06",
+            "max_pain": 95.0,
+            "call_oi": 2290,
+            "put_oi": 1466
         }
     ],
     "2026-07-02": [
@@ -811,6 +811,12 @@
             "max_pain": 130.0,
             "call_oi": 191,
             "put_oi": 749
+        },
+        {
+            "trade_date": "2026-06-06",
+            "max_pain": 130.0,
+            "call_oi": 187,
+            "put_oi": 768
         }
     ],
     "2026-07-10": [
@@ -830,6 +836,12 @@
             "trade_date": "2026-06-05",
             "max_pain": 101.0,
             "call_oi": 58,
+            "put_oi": 16
+        },
+        {
+            "trade_date": "2026-06-06",
+            "max_pain": 101.0,
+            "call_oi": 57,
             "put_oi": 16
         }
     ]
