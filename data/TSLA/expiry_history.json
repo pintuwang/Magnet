@@ -3577,6 +3577,12 @@
             "max_pain": 400.0,
             "call_oi": 428,
             "put_oi": 402
+        },
+        {
+            "trade_date": "2026-07-14",
+            "max_pain": 400.0,
+            "call_oi": 1295,
+            "put_oi": 1043
         }
     ]
 }

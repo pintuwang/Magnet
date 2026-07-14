@@ -1675,6 +1675,12 @@
             "max_pain": 13.0,
             "call_oi": 42,
             "put_oi": 108
+        },
+        {
+            "trade_date": "2026-07-14",
+            "max_pain": 13.0,
+            "call_oi": 51,
+            "put_oi": 109
         }
     ]
 }
