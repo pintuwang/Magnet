@@ -725,7 +725,12 @@
       const cluster = expiryHistory[expDate];
       if (!cluster || cluster.length === 0) return;
 
-      const finalSnap = cluster[cluster.length - 1];
+      // FIX: use last snapshot ON or BEFORE expiry day, not post-expiry.
+      // Post-expiry snapshots record pain for the NEXT contract cycle.
+      const onOrBefore = cluster.filter(r => r.trade_date <= expDate);
+      const finalSnap  = onOrBefore.length > 0
+        ? onOrBefore[onOrBefore.length - 1]
+        : cluster[cluster.length - 1];
 
       // Find actual close — try expiry day, then next business day
       const nextDay = new Date(new Date(expDate).getTime() + 86400000)
