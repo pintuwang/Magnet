@@ -1,15 +1,7 @@
 {
-    "last_update": "2026-10-14 03:47",
-    "spot": 778.28,
+    "last_update": "2026-10-14 08:49",
+    "spot": 778.01,
     "data": [
-        {
-            "date": "2026-10-13",
-            "max_pain": 777.0,
-            "call_oi": 173091,
-            "put_oi": 232907,
-            "pc_ratio": 1.3456,
-            "is_monthly": false
-        },
         {
             "date": "2026-10-14",
             "max_pain": 777.0,
@@ -29,7 +21,7 @@
         {
             "date": "2026-10-16",
             "max_pain": 770.0,
-            "call_oi": 706890,
+            "call_oi": 706888,
             "put_oi": 2395795,
             "pc_ratio": 3.3892,
             "is_monthly": true
@@ -101,7 +93,7 @@
         {
             "date": "2026-11-20",
             "max_pain": 770.0,
-            "call_oi": 398467,
+            "call_oi": 398466,
             "put_oi": 2325992,
             "pc_ratio": 5.8374,
             "is_monthly": true
@@ -117,17 +109,17 @@
         {
             "date": "2026-11-30",
             "max_pain": 760.0,
-            "call_oi": 124397,
+            "call_oi": 124394,
             "put_oi": 361745,
-            "pc_ratio": 2.908,
+            "pc_ratio": 2.9081,
             "is_monthly": false
         },
         {
             "date": "2026-12-18",
             "max_pain": 740.0,
-            "call_oi": 810248,
+            "call_oi": 810226,
             "put_oi": 1917198,
-            "pc_ratio": 2.3662,
+            "pc_ratio": 2.3663,
             "is_monthly": true
         },
         {
@@ -165,17 +157,17 @@
         {
             "date": "2027-03-19",
             "max_pain": 750.0,
-            "call_oi": 373825,
+            "call_oi": 373781,
             "put_oi": 748431,
-            "pc_ratio": 2.0021,
+            "pc_ratio": 2.0023,
             "is_monthly": true
         },
         {
             "date": "2027-03-31",
             "max_pain": 765.0,
-            "call_oi": 64105,
+            "call_oi": 64076,
             "put_oi": 89388,
-            "pc_ratio": 1.3944,
+            "pc_ratio": 1.395,
             "is_monthly": false
         }
     ]
