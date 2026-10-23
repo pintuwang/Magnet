@@ -1,21 +1,21 @@
 {
-    "last_update": "2026-10-23 08:21",
-    "spot": 2.02,
+    "last_update": "2026-10-24 01:45",
+    "spot": 1.99,
     "data": [
         {
             "date": "2026-11-20",
             "max_pain": 2.0,
-            "call_oi": 4362,
-            "put_oi": 2252,
-            "pc_ratio": 0.5163,
+            "call_oi": 4549,
+            "put_oi": 2251,
+            "pc_ratio": 0.4948,
             "is_monthly": true
         },
         {
             "date": "2027-01-15",
             "max_pain": 3.0,
-            "call_oi": 10211,
+            "call_oi": 10221,
             "put_oi": 2987,
-            "pc_ratio": 0.2925,
+            "pc_ratio": 0.2922,
             "is_monthly": true
         },
         {
