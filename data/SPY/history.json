@@ -1,15 +1,7 @@
 {
-    "last_update": "2026-10-27 03:03",
-    "spot": 764.89,
+    "last_update": "2026-10-27 09:03",
+    "spot": 765.37,
     "data": [
-        {
-            "date": "2026-10-26",
-            "max_pain": 763.0,
-            "call_oi": 169543,
-            "put_oi": 391761,
-            "pc_ratio": 2.3107,
-            "is_monthly": false
-        },
         {
             "date": "2026-10-27",
             "max_pain": 767.0,
