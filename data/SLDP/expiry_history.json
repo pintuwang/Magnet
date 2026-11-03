@@ -249,12 +249,6 @@
     ],
     "2026-11-20": [
         {
-            "trade_date": "2026-10-21",
-            "max_pain": 2.5,
-            "call_oi": 4082,
-            "put_oi": 2251
-        },
-        {
             "trade_date": "2026-10-22",
             "max_pain": 2.0,
             "call_oi": 4245,
@@ -306,6 +300,12 @@
             "trade_date": "2026-11-03",
             "max_pain": 2.0,
             "call_oi": 4554,
+            "put_oi": 3368
+        },
+        {
+            "trade_date": "2026-11-04",
+            "max_pain": 2.0,
+            "call_oi": 4568,
             "put_oi": 3368
         }
     ],
@@ -373,12 +373,6 @@
     ],
     "2027-01-15": [
         {
-            "trade_date": "2026-10-21",
-            "max_pain": 3.0,
-            "call_oi": 10389,
-            "put_oi": 2988
-        },
-        {
             "trade_date": "2026-10-22",
             "max_pain": 3.0,
             "call_oi": 10121,
@@ -430,6 +424,12 @@
             "trade_date": "2026-11-03",
             "max_pain": 2.5,
             "call_oi": 11728,
+            "put_oi": 2972
+        },
+        {
+            "trade_date": "2026-11-04",
+            "max_pain": 2.5,
+            "call_oi": 11733,
             "put_oi": 2972
         }
     ],
@@ -497,12 +497,6 @@
     ],
     "2027-02-19": [
         {
-            "trade_date": "2026-10-21",
-            "max_pain": 2.5,
-            "call_oi": 439,
-            "put_oi": 169
-        },
-        {
             "trade_date": "2026-10-22",
             "max_pain": 2.5,
             "call_oi": 466,
@@ -555,6 +549,12 @@
             "max_pain": 2.0,
             "call_oi": 875,
             "put_oi": 171
+        },
+        {
+            "trade_date": "2026-11-04",
+            "max_pain": 2.0,
+            "call_oi": 874,
+            "put_oi": 171
         }
     ],
     "2026-12-18": [
@@ -592,6 +592,12 @@
             "trade_date": "2026-11-03",
             "max_pain": 2.5,
             "call_oi": 38,
+            "put_oi": 30
+        },
+        {
+            "trade_date": "2026-11-04",
+            "max_pain": 2.5,
+            "call_oi": 41,
             "put_oi": 30
         }
     ]
