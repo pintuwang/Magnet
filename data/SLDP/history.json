@@ -1,37 +1,37 @@
 {
-    "last_update": "2026-11-05 09:57",
-    "spot": 2.25,
+    "last_update": "2026-11-06 04:29",
+    "spot": 2.07,
     "data": [
         {
             "date": "2026-11-20",
             "max_pain": 2.0,
-            "call_oi": 4545,
-            "put_oi": 3350,
-            "pc_ratio": 0.7371,
+            "call_oi": 4578,
+            "put_oi": 3351,
+            "pc_ratio": 0.732,
             "is_monthly": true
         },
         {
             "date": "2026-12-18",
-            "max_pain": 2.5,
-            "call_oi": 43,
-            "put_oi": 30,
-            "pc_ratio": 0.6977,
+            "max_pain": 2.0,
+            "call_oi": 843,
+            "put_oi": 31,
+            "pc_ratio": 0.0368,
             "is_monthly": true
         },
         {
             "date": "2027-01-15",
-            "max_pain": 2.5,
-            "call_oi": 11747,
-            "put_oi": 2970,
-            "pc_ratio": 0.2528,
+            "max_pain": 3.0,
+            "call_oi": 11688,
+            "put_oi": 2960,
+            "pc_ratio": 0.2533,
             "is_monthly": true
         },
         {
             "date": "2027-02-19",
             "max_pain": 2.0,
-            "call_oi": 956,
+            "call_oi": 865,
             "put_oi": 171,
-            "pc_ratio": 0.1789,
+            "pc_ratio": 0.1977,
             "is_monthly": true
         }
     ]
