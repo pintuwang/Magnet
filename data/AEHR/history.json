@@ -1,21 +1,69 @@
 {
-    "last_update": "2026-11-24 13:42",
-    "spot": 48.51,
+    "last_update": "2026-11-25 06:55",
+    "spot": 41.89,
     "data": [
         {
+            "date": "2026-11-27",
+            "max_pain": 48.0,
+            "call_oi": 3665,
+            "put_oi": 1009,
+            "pc_ratio": 0.2753,
+            "is_monthly": false
+        },
+        {
+            "date": "2026-12-04",
+            "max_pain": 50.0,
+            "call_oi": 1024,
+            "put_oi": 599,
+            "pc_ratio": 0.585,
+            "is_monthly": false
+        },
+        {
+            "date": "2026-12-11",
+            "max_pain": 52.0,
+            "call_oi": 499,
+            "put_oi": 455,
+            "pc_ratio": 0.9118,
+            "is_monthly": false
+        },
+        {
+            "date": "2026-12-18",
+            "max_pain": 70.0,
+            "call_oi": 11014,
+            "put_oi": 5929,
+            "pc_ratio": 0.5383,
+            "is_monthly": true
+        },
+        {
+            "date": "2026-12-24",
+            "max_pain": 55.0,
+            "call_oi": 341,
+            "put_oi": 349,
+            "pc_ratio": 1.0235,
+            "is_monthly": false
+        },
+        {
+            "date": "2026-12-31",
+            "max_pain": 50.0,
+            "call_oi": 76,
+            "put_oi": 81,
+            "pc_ratio": 1.0658,
+            "is_monthly": false
+        },
+        {
             "date": "2027-01-15",
-            "max_pain": 145.0,
-            "call_oi": 112,
-            "put_oi": 17923,
-            "pc_ratio": 160.0268,
+            "max_pain": 35.0,
+            "call_oi": 23243,
+            "put_oi": 34120,
+            "pc_ratio": 1.468,
             "is_monthly": true
         },
         {
             "date": "2027-03-19",
-            "max_pain": 130.0,
-            "call_oi": 0,
-            "put_oi": 91,
-            "pc_ratio": null,
+            "max_pain": 65.0,
+            "call_oi": 7577,
+            "put_oi": 2308,
+            "pc_ratio": 0.3046,
             "is_monthly": true
         }
     ]
