@@ -1,69 +1,21 @@
 {
-    "last_update": "2026-11-24 08:36",
+    "last_update": "2026-11-24 13:42",
     "spot": 48.51,
     "data": [
         {
-            "date": "2026-11-27",
-            "max_pain": 48.0,
-            "call_oi": 2771,
-            "put_oi": 908,
-            "pc_ratio": 0.3277,
-            "is_monthly": false
-        },
-        {
-            "date": "2026-12-04",
-            "max_pain": 50.0,
-            "call_oi": 871,
-            "put_oi": 541,
-            "pc_ratio": 0.6211,
-            "is_monthly": false
-        },
-        {
-            "date": "2026-12-11",
-            "max_pain": 52.0,
-            "call_oi": 486,
-            "put_oi": 443,
-            "pc_ratio": 0.9115,
-            "is_monthly": false
-        },
-        {
-            "date": "2026-12-18",
-            "max_pain": 70.0,
-            "call_oi": 10826,
-            "put_oi": 5979,
-            "pc_ratio": 0.5523,
-            "is_monthly": true
-        },
-        {
-            "date": "2026-12-24",
-            "max_pain": 60.0,
-            "call_oi": 294,
-            "put_oi": 227,
-            "pc_ratio": 0.7721,
-            "is_monthly": false
-        },
-        {
-            "date": "2026-12-31",
-            "max_pain": 50.0,
-            "call_oi": 57,
-            "put_oi": 79,
-            "pc_ratio": 1.386,
-            "is_monthly": false
-        },
-        {
             "date": "2027-01-15",
-            "max_pain": 35.0,
-            "call_oi": 22916,
-            "put_oi": 33963,
-            "pc_ratio": 1.4821,
+            "max_pain": 145.0,
+            "call_oi": 112,
+            "put_oi": 17923,
+            "pc_ratio": 160.0268,
             "is_monthly": true
         },
         {
             "date": "2027-03-19",
-            "max_pain": 65.0,
-            "call_oi": 7528,
-            "put_oi": 2316,
-            "pc_ratio": 0.3077,
+            "max_pain": 130.0,
+            "call_oi": 0,
+            "put_oi": 91,
+            "pc_ratio": null,
             "is_monthly": true
         }
     ]
